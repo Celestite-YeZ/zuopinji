@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蓝兰 | 其他练习</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: rgba(255,255,255,0.82);
+      --text: #121826;
+      --muted: #6c7688;
+      --line: rgba(18,24,38,0.08);
+      --accent: #5d7cff;
+      --accent-soft: rgba(93,124,255,0.10);
+      --shadow: 0 18px 48px rgba(37,56,104,0.10);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(93,124,255,0.16), transparent 20%),
+        radial-gradient(circle at 90% 16%, rgba(134,171,255,0.16), transparent 18%),
+        linear-gradient(180deg, #fbfcff 0%, #f3f6fb 100%);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
+
+    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      padding-top: 14px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(93,124,255,0.22);
+      flex: none;
+    }
+
+    .brand-name { font-size: 15px; font-weight: 800; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 50px 0 18px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 38px 34px;
+      border-radius: 42px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.97), rgba(241,246,255,0.90)),
+        linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-orb {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,124,255,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-desc {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+      padding: 10px 0 30px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+    }
+
+    .side-card,
+    .work-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .side-card {
+      padding: 20px;
+    }
+
+    .side-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .side-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .side-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .side-link:hover,
+    .side-link.active {
+      background: rgba(93,124,255,0.08);
+      color: var(--accent);
+      border-color: rgba(93,124,255,0.12);
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .work-card {
+      padding: 24px;
+      scroll-margin-top: 110px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 780px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .meta-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .article-card {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.82);
+      border-radius: 24px;
+      box-shadow: 0 14px 30px rgba(37,56,104,0.08);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px rgba(37,56,104,0.14);
+      border-color: rgba(93,124,255,0.18);
+    }
+
+    .article-card:hover .article-cover img {
+      transform: scale(1.04);
+    }
+
+    .article-card:hover .article-link {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(93,124,255,0.24);
+    }
+
+    .article-cover {
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(93,124,255,0.10), rgba(255,255,255,0.72));
+    }
+
+    .article-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+      transition: transform 0.3s ease;
+      cursor: zoom-in;
+    }
+
+    .article-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .article-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .article-link {
+      margin-top: auto;
+      align-self: flex-end;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(93,124,255,0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .stack-layout {
+      display: grid;
+      gap: 18px;
+    }
+
+    .item-stack {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.64);
+    }
+
+    .video-box,
+    .image-box,
+    .text-box,
+    .long-image-box {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.76);
+      box-shadow: 0 10px 24px rgba(37,56,104,0.06);
+    }
+
+    .video-frame {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+    }
+
+    .video-caption,
+    .image-caption {
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .gallery-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .gallery-four {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .thumb-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .thumb-grid-4 .image-box {
+      border-radius: 18px;
+    }
+
+    .thumb-grid-4 .image-box img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      background: #f7f8fc;
+      border-radius: 0;
+    }
+
+    .text-box {
+      padding: 18px;
+    }
+
+    .text-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .long-image-box img,
+    .image-box img {
+      border-radius: 0;
+      cursor: zoom-in;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(12, 18, 32, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: min(1280px, 94vw);
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .lightbox-image-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 100%;
+      max-height: 90vh;
+    }
+
+    .lightbox img {
+      display: block;
+      max-width: 100%;
+      max-height: 82vh;
+      width: auto;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+    }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      text-align: center;
+      color: rgba(255,255,255,0.92);
+      font-size: 14px;
+    }
+
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-prev:hover,
+    .lightbox-next:hover {
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 26px;
+      line-height: 1;
+      flex: none;
+    }
+
+    footer {
+      padding: 10px 0 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .gallery-two,
+      .gallery-four,
+      .article-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .thumb-grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .nav { flex-direction: column; align-items: start; border-radius: 24px; }
+      .hero-card, .work-card { padding: 20px; border-radius: 28px; }
+
+      .thumb-grid-4 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .lightbox {
+        padding: 16px;
+      }
+
+      .lightbox-inner {
+        gap: 8px;
+      }
+
+      .lightbox-prev,
+      .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+      }
+
+      .lightbox-close {
+        top: -8px;
+        right: -8px;
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container nav-wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="brand-mark">蓝</div>
+        <div>
+          <div class="brand-name">蓝兰</div>
+          <div class="brand-sub">Narrative Design Portfolio</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">返回首页</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-orb"></div>
+        <div class="eyebrow">Other Works</div>
+        <h1>其他练习</h1>
+        <p class="hero-desc">这一页主要展示我在 3D 场景、UE 场景练习以及 AI 辅助视觉创作上的一些补充性内容。它们不是主作品集的核心叙事项目，但能够补充我在视觉表达、空间氛围与数字内容生成方面的实践能力。</p>
+        <div class="hero-tags">
+          <span class="hero-tag">3D 场景练习</span>
+          <span class="hero-tag">UE 场景氛围</span>
+          <span class="hero-tag">AI 图像创作</span>
+          <span class="hero-tag">长图图解</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-title">页面目录</div>
+        <div class="side-nav" id="sideNav">
+          <a class="side-link active" href="#section-3d">3D 练习</a>
+          <a class="side-link" href="#section-ue">UE 场景练习</a>
+          <a class="side-link" href="#section-ai">AI 图像与长图</a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <section class="work-card" id="section-3d">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">3D 练习</h2>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span class="meta-pill">3d动画</span>
+          <span class="meta-pill">手办练习</span>
+          <span class="meta-pill">古画模拟</span>
+        </div>
+
+        <div class="stack-layout">
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>3D 动画练习</b><br>尝试植物生长的动画制作和写实质感，以及贴图与ai工具结合的尝试。</p>
+            </div>
+            <div class="video-box">
+              <div class="video-frame">
+                <video controls>
+                  <source src="莲花版1.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="video-caption">莲花生长动画，建模、贴图、动画均自己制作，工具为blender。</div>
+            </div>
+          </div>
+
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>3D 动画练习</b><br>偏产品展示类的动画练习。</p>
+            </div>
+            <div class="video-box">
+              <div class="video-frame">
+                <video controls>
+                  <source src="媒体3.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="video-caption">整体动画有参考，涉及的模型、贴图和动画为自己制作，工具为c4d。&nbsp;</div>
+            </div>
+          </div>
+
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>3d潮玩手办练习</b><br>
+              参考泡泡玛特的设计风格，参考图为AI生成，模型为自己制作，工具为zbrush。</p>
+            </div>
+            <div class="thumb-grid-4">
+              <div class="image-box">
+                <img src="图片8.jpg" alt="泡泡玛特练习 参考图">
+                <div class="image-caption">参考图</div>
+              </div>
+              <div class="image-box">
+                <img src="图片9.png" alt="泡泡玛特练习 三视图 1">
+                <div class="image-caption">三视图 1</div>
+              </div>
+              <div class="image-box">
+                <img src="图片10.png" alt="泡泡玛特练习 三视图 2">
+                <div class="image-caption">三视图 2</div>
+              </div>
+              <div class="image-box">
+                <img src="图片11.png" alt="泡泡玛特练习 三视图 3">
+                <div class="image-caption">三视图 3</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>仿古画练习</b><br>
+              这一组为仿造古画氛围的 3D 练习图，尝试做一些风格化的模型与场景，工具为blender。</p>
+            </div>
+            <div class="gallery-two">
+              <div class="image-box">
+                <img src="图片6.jpg" alt="吴应贞 红莲轴">
+                <div class="image-caption">吴应贞 红莲轴 原图</div>
+              </div>
+              <div class="image-box">
+                <img src="图片5.png" alt="古画模拟练习 图 2">
+                <div class="image-caption">3d渲染图</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="work-card" id="section-ue">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">UE 场景练习</h2>
+            <div class="section-note">对于一些交互逻辑进行了学习和尝试，主要是物品上，其他内容正在学习中。</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span class="meta-pill">物品交互</span>
+          <span class="meta-pill">蓝图练习</span>
+        </div>
+
+        <div class="stack-layout">
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>UE 场景练习</b><br>尝试在ue5中进行场景搭建、基础镜头、灯光氛围、简单交互的尝试，视频中展示的是物品交互方面的练习尝试。</p>
+            </div>
+            <div class="video-box">
+              <div class="video-frame">
+                <video controls>
+                  <source src="02.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="video-caption">UE 场景练习视频</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="work-card" id="section-ai">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">AI工具尝试</h2>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span class="meta-pill">图像生成</span>
+          <span class="meta-pill">ai工具</span>
+          <span class="meta-pill">可点击放大</span>
+        </div>
+
+        <div class="stack-layout">
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>书籍插画制作</b><br>书籍《Chinese Mythology: A Treasury of Legends 》的书籍插图（已出版），创作符合书籍风格与故事氛围的插图共 30 张。</p>
+            </div>
+            <div class="gallery-two">
+              <div class="image-box">
+                <img src="图片26.png" alt="书中插画《吕洞宾》">
+                <div class="image-caption">书中插画《吕洞宾》</div>
+              </div>
+              <div class="image-box">
+                <img src="图片27.png" alt="书中插画《蓝采和》">
+                <div class="image-caption">书中插画《蓝采和》</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>电视节目配图制作</b><br>CCTV10《百家说故事·八仙神仙谱》节目（已播出），根据每集节目故事内容创作AI配图，产出符合电视节目需求的插图共53张。</p>
+            </div>
+            <div class="gallery-two">
+              <div class="image-box">
+                <img src="刘安恭恭敬敬地将八位老者迎到思仙台上居住，隆重地以弟子之礼给老者们叩头，诉说自己的宏图大愿和求道之心，恳求他们留下来传授修道之法.png" alt="《鸡犬升天》">
+                <div class="image-caption">《鸡犬升天》</div>
+              </div>
+              <div class="image-box">
+                <img src="在她13岁这年，有一次外出采药的时候迷了路，正当她饿得眼冒金星，奄奄一息的时候，忽然眼前出现了一位仙人.png" alt="《何仙姑》">
+                <div class="image-caption">《何仙姑》</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item-stack">
+            <div class="text-box">
+              <p><b>图说神话</b><br>用图像讲述神话故事。</p>
+            </div>
+            <div class="article-grid">
+              <article class="article-card">
+                <div class="article-cover"><img src="图片23.jpg" alt="图说神话：铁拐李为什么这么丑"></div>
+                <div class="article-body">
+                  <h3 class="article-title">图说神话：铁拐李为什么这么丑</h3>
+                  <a class="article-link" href="https://mp.weixin.qq.com/s/qC9eu9YzVgw6-Iehi0aIrQ" target="_blank">点击跳转原文</a>
+                </div>
+              </article>
+              <article class="article-card">
+                <div class="article-cover"><img src="图片24.jpg" alt="图说神话：女娲为何补天"></div>
+                <div class="article-body">
+                  <h3 class="article-title">图说神话：女娲为何补天</h3>
+                  <a class="article-link" href="https://mp.weixin.qq.com/s/SikXJ2tv43JZmxS9awsIJQ" target="_blank">点击跳转原文</a>
+                </div>
+              </article>
+              <article class="article-card">
+                <div class="article-cover"><img src="神女_01.png" alt="图说神话：千古文人的梦中情人——巫山神女"></div>
+                <div class="article-body">
+                  <h3 class="article-title">图说神话：千古文人的梦中情人——巫山神女</h3>
+                  <a class="article-link" href="https://mp.weixin.qq.com/s/GbA9-DbCzyRe4CCcpliYYQ" target="_blank">点击跳转原文</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 蓝兰 Narrative Design Portfolio · Other Works Page
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-prev" id="lightboxPrev" aria-label="上一张">‹</button>
+      <div class="lightbox-image-wrap">
+        <img id="lightboxImage" src="" alt="放大预览">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
+      <button class="lightbox-next" id="lightboxNext" aria-label="下一张">›</button>
+      <button class="lightbox-close" id="lightboxClose" aria-label="关闭图片预览">×</button>
+    </div>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.side-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => link.classList.remove('active'));
+          const active = document.querySelector(`.side-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, {
+      rootMargin: '-30% 0px -55% 0px',
+      threshold: 0.1
+    });
+
+    sections.forEach(section => observer.observe(section));
+
+    const galleryImages = Array.from(document.querySelectorAll('.image-box img, .article-cover img'));
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentImageIndex = 0;
+
+    function updateLightboxImage() {
+      const img = galleryImages[currentImageIndex];
+      if (!img) return;
+      lightboxImage.src = img.src;
+      lightboxImage.alt = img.alt || '放大预览';
+      lightboxCaption.textContent = img.alt || '';
+    }
+
+    function openLightbox(index) {
+      currentImageIndex = index;
+      updateLightboxImage();
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      lightboxCaption.textContent = '';
+    }
+
+    function showPrevImage() {
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      updateLightboxImage();
+    }
+
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      updateLightboxImage();
+    }
+
+    galleryImages.forEach((img, index) => {
+      img.addEventListener('click', () => openLightbox(index));
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrevImage);
+    lightboxNext.addEventListener('click', showNextImage);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrevImage();
+      if (e.key === 'ArrowRight') showNextImage();
+    });
+  </script>
+</body>
+</html>

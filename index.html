@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蓝兰 | Portfolio</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: rgba(255,255,255,0.82);
+      --surface-strong: rgba(255,255,255,0.94);
+      --text: #121826;
+      --muted: #6c7688;
+      --line: rgba(18,24,38,0.08);
+      --accent: #5d7cff;
+      --accent-soft: rgba(93,124,255,0.10);
+      --shadow: 0 18px 48px rgba(37, 56, 104, 0.10);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(93,124,255,0.16), transparent 20%),
+        radial-gradient(circle at 90% 16%, rgba(134,171,255,0.16), transparent 18%),
+        linear-gradient(180deg, #fbfcff 0%, #f3f6fb 100%);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 14px;
+      z-index: 20;
+      padding-top: 14px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(93,124,255,0.22);
+      flex: none;
+    }
+
+    .brand-name { font-size: 15px; font-weight: 800; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 54px 0 24px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 44px 42px 36px;
+      border-radius: 42px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.97), rgba(241,246,255,0.90)),
+        linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(93,124,255,0.03) 1px, transparent 1px),
+        linear-gradient(rgba(93,124,255,0.03) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent 82%);
+      pointer-events: none;
+    }
+
+    .hero-orb {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,124,255,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(42px, 9vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .hero-subtitle {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      font-size: clamp(18px, 2.8vw, 26px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-desc {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-actions {
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(18,24,38,0.08);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.9);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    section { padding: 10px 0 20px; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 680px;
+    }
+
+    .mini-intro {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(12px);
+    }
+
+    .mini-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .intro-text {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .meta-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .catalog {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .catalog-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 24px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.98), rgba(239,244,255,0.92));
+      border: 1px solid rgba(255,255,255,0.88);
+      box-shadow: var(--shadow);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .catalog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 52px rgba(37,56,104,0.12);
+    }
+
+    .catalog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px 12px;
+    }
+
+    .catalog-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .catalog-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(93,124,255,0.14), rgba(139,176,255,0.24));
+      color: var(--accent);
+      font-weight: 800;
+      flex: none;
+    }
+
+    .catalog-desc {
+      padding: 0 20px 14px;
+      color: var(--muted);
+      font-size: 14px;
+      border-bottom: 1px solid rgba(18,24,38,0.08);
+    }
+
+    .catalog-list {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .catalog-item {
+      display: block;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(18,24,38,0.08);
+      transition: background 0.18s ease, padding-left 0.18s ease;
+    }
+
+    .catalog-item:last-child { border-bottom: none; }
+
+    .catalog-item:hover {
+      background: rgba(93,124,255,0.05);
+      padding-left: 24px;
+    }
+
+    .catalog-item-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .catalog-item-sub {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-line {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 14px 0 26px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid rgba(18,24,38,0.08);
+      margin-top: 10px;
+    }
+
+    footer {
+      padding: 0 0 28px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 920px) {
+      .catalog { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .nav { flex-direction: column; align-items: start; border-radius: 24px; }
+      .hero-card { padding: 34px 22px 28px; border-radius: 28px; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; }
+      .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container nav-wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="brand-mark">蓝</div>
+        <div>
+          <div class="brand-name">蓝兰</div>
+          <div class="brand-sub">Narrative Design Portfolio</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#about">简介</a>
+        <a href="#index">索引</a>
+        <a href="#footer-contact">联系</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-orb"></div>
+        <div class="eyebrow">Mythology · Narrative · Worldbuilding</div>
+        <h1>蓝兰</h1>
+        <p class="hero-subtitle">游戏文案策划 / Narrative Designer</p>
+        <p class="hero-desc">北京邮电大学数字媒体艺术硕士在读，作品包括游戏、神话研究、写作以及一些感兴趣内容的尝试，长期关注中国神话、民俗与志怪文化，并尝试把这些内容转化为更具游戏感的叙事体验。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#index">进入项目索引</a>
+          <a class="btn btn-secondary" href="#footer-contact">快速联系</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="index">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">项目索引</h2>
+            <div class="section-note">首页只保留目录感。每个分类都可以跳到后续单独页面，像作品集入口页，不像内容总表。</div>
+          </div>
+        </div>
+
+        <div class="catalog">
+          <a class="catalog-card" href="project.html">
+            <div class="catalog-head">
+              <h3 class="catalog-title">游戏项目</h3>
+            </div>
+            <div class="catalog-desc">一些游戏相关项目的尝试。&nbsp;</div>
+            <div class="catalog-list">
+              <div class="catalog-item">
+                <div class="catalog-item-title">《Everything is Fine》</div>
+                <div class="catalog-item-sub">都市怪谈 / 双视角叙事 / 异常排查</div>
+              </div>
+
+              <div class="catalog-item">
+                <div class="catalog-item-title">《Dots on Trips》</div>
+                <div class="catalog-item-sub">音乐节奏 / 盲文结合 / Game Jam</div>
+              </div>
+              <div class="catalog-item">
+                <div class="catalog-item-title">《风筝凌云志》</div>
+                <div class="catalog-item-sub">限时命题 / 传统文化 / Game Jam</div>
+              </div>
+			  <div class="catalog-item">
+                <div class="catalog-item-title">《故里》</div>
+                <div class="catalog-item-sub">像素经营 / 昼夜切换 / 试玩视频</div>
+              </div>
+              <div class="catalog-item">
+                <div class="catalog-item-title">四月四日殷家宅</div>
+                <div class="catalog-item-sub">民俗悬疑 / 推理调查 / 剧本策划</div>
+              </div>
+            </div>
+          </a>
+
+          <a class="catalog-card" href="myth.html">
+            <div class="catalog-head">
+              <h3 class="catalog-title">神话研究</h3>
+            </div>
+            <div class="catalog-desc">神话、民俗与志怪内容的整理与转化。</div>
+            <div class="catalog-list">
+              <div class="catalog-item">
+                <div class="catalog-item-title">昆仑百草园</div>
+                <div class="catalog-item-sub">神话溯源 / 传统解读 / 图说神话</div>
+              </div>
+              <div class="catalog-item">
+                <div class="catalog-item-title">九尾狐文化网站</div>
+                <div class="catalog-item-sub">资料整理 / 网站搭建 / 知识可视化</div>
+              </div>
+              <div class="catalog-item">
+                <div class="catalog-item-title">国博瓷器展《珍瓷萃美》</div>
+                <div class="catalog-item-sub">策展规划 / 文物叙事 / 数字转化</div>
+              </div>
+            </div>
+          </a>
+
+		  <a class="catalog-card" href="other.html">
+            <div class="catalog-head">
+              <h3 class="catalog-title">其他练习</h3>
+            </div>
+            <div class="catalog-desc">一些感兴趣内容的尝试和联系。</div>
+            <div class="catalog-list">
+              <div class="catalog-item">
+                <div class="catalog-item-title">3D 场景练习</div>
+                <div class="catalog-item-sub">建模 / 材质 / 渲染</div>
+              </div>
+              <div class="catalog-item">
+                <div class="catalog-item-title">UE5 练习</div>
+                <div class="catalog-item-sub">氛围 / 空间 / 基础交互</div>
+              </div>
+              <div class="catalog-item">
+                <div class="catalog-item-title">AI 插画与视觉</div>
+                <div class="catalog-item-sub">神话插画 / 角色视觉 / 长图图解</div>
+              </div>
+            </div>
+          </a>
+			
+          <a class="catalog-card" href="oc.html">
+            <div class="catalog-head">
+              <h3 class="catalog-title">个人OC</h3>
+            </div>
+            <div class="catalog-desc">另一个世界中的人们和他们自己的故事。</div>
+            <div class="catalog-list">
+              <div class="catalog-item">
+                <div class="catalog-item-title">《山河》</div>
+                <div class="catalog-item-sub">江湖武侠 / 八大势力 / 角色故事</div>
+              </div>
+            </div>
+          </a>
+
+
+        </div>
+
+        <div class="footer-line" id="footer-contact">
+          <span><b>邮箱：</b>17623734529@163.com</span>
+          <span><b>电话：</b>176-237-34529</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 蓝兰 Narrative Design Portfolio
+  </footer>
+</body>
+</html>

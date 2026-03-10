@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蓝兰 | 神话研究</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: rgba(255,255,255,0.82);
+      --surface-strong: rgba(255,255,255,0.95);
+      --text: #121826;
+      --muted: #6c7688;
+      --line: rgba(18,24,38,0.08);
+      --accent: #5d7cff;
+      --accent-soft: rgba(93,124,255,0.10);
+      --shadow: 0 18px 48px rgba(37,56,104,0.10);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(93,124,255,0.16), transparent 20%),
+        radial-gradient(circle at 90% 16%, rgba(134,171,255,0.16), transparent 18%),
+        linear-gradient(180deg, #fbfcff 0%, #f3f6fb 100%);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
+
+    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      padding-top: 14px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(93,124,255,0.22);
+      flex: none;
+    }
+
+    .brand-name { font-size: 15px; font-weight: 800; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 50px 0 22px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 38px 34px;
+      border-radius: 42px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.97), rgba(241,246,255,0.90)),
+        linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-orb {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,124,255,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-desc {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+      padding: 10px 0 40px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+    }
+
+    .side-card,
+    .section-card,
+    .site-card,
+    .media-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .side-card {
+      padding: 20px;
+    }
+
+    .section-card,
+    .site-card,
+    .media-card {
+      padding: 28px;
+    }
+
+    .side-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .side-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .side-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .side-link:hover,
+    .side-link.active {
+      background: rgba(93,124,255,0.08);
+      color: var(--accent);
+      border-color: rgba(93,124,255,0.12);
+    }
+
+    .content {
+      display: grid;
+      gap: 30px;
+    }
+
+    .content > section + section {
+      margin-top: 4px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 760px;
+    }
+
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .article-card {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.82);
+      border-radius: 24px;
+      box-shadow: 0 14px 30px rgba(37,56,104,0.08);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px rgba(37,56,104,0.14);
+      border-color: rgba(93,124,255,0.18);
+    }
+
+    .article-card:hover .article-cover img {
+      transform: scale(1.04);
+    }
+
+    .article-card:hover .article-link {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(93,124,255,0.24);
+    }
+
+    .article-cover {
+      aspect-ratio: 21 / 9;
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(93,124,255,0.10), rgba(255,255,255,0.72));
+    }
+
+    .article-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .article-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .article-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .article-link {
+      margin-top: auto;
+      align-self: flex-end;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(93,124,255,0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .article-link:hover,
+    .site-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(93,124,255,0.24);
+    }
+
+    .site-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .site-preview {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.76);
+      box-shadow: 0 10px 24px rgba(37,56,104,0.06);
+    }
+
+    .site-text {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .site-meta {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .meta-box {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--line);
+    }
+
+    .meta-box b {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .meta-box span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .site-link,
+    .file-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(93,124,255,0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .video-unit,
+    .image-unit {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 10px 24px rgba(37,56,104,0.06);
+    }
+
+    .video-unit video,
+    .image-unit img {
+      border-radius: 0;
+    }
+
+    .video-frame {
+      aspect-ratio: 2 / 1;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+    }
+
+    .unit-caption {
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+    }
+
+    footer {
+      padding: 10px 0 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .article-grid,
+      .site-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .nav { flex-direction: column; align-items: start; border-radius: 24px; }
+      .hero-card, .section-card, .site-card, .media-card { padding: 22px; border-radius: 28px; }
+      .article-grid { grid-template-columns: 1fr; }
+      .content { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container nav-wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="brand-mark">蓝</div>
+        <div>
+          <div class="brand-name">蓝兰</div>
+          <div class="brand-sub">Narrative Design Portfolio</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">返回首页</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-orb"></div>
+        <div class="eyebrow">Mythology Research</div>
+        <h1>神话研究</h1>
+        <p class="hero-desc">这一页主要展示我如何将中国神话、志怪与民俗内容转化为可传播、可展示、可进一步进入游戏叙事的内容形式。它并不是单纯的资料陈列，而更像一套持续积累的叙事素材库与转化实践。</p>
+        <div class="hero-tags">
+          <span class="hero-tag">神话研究</span>
+          <span class="hero-tag">内容写作</span>
+          <span class="hero-tag">数字化呈现</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-title">页面目录</div>
+        <div class="side-nav" id="sideNav">
+          <a class="side-link active" href="#section-articles">昆仑百草园</a>
+          <a class="side-link" href="#section-site">九尾狐文化网站</a>
+          <a class="side-link" href="#section-exhibit">文化内容的展览化表达</a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <section class="section-card" id="section-articles">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">昆仑百草园</h2>
+            <div class="section-note">公众号内容不直接堆满链接，而是挑选代表文章做成卡片展示。你后面只需要替换标题、封面图和原文链接。</div>
+          </div>
+        </div>
+
+        <div class="article-grid">
+          <article class="article-card">
+            <div class="article-cover"><img src="jimeng-2025-11-30-6374-中国传统山水画风格，参考唐代美学，一位年轻的道士站在广阔山脉的峰顶，他是一位二十....png" alt="文章封面 1"></div>
+            <div class="article-body">
+              <h3 class="article-title">风起怀德里，月落霓裳曲：叶法善的一生</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/iGiO9eUHF58U4f2mJvlpXA" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="jimeng-2025-11-16-4246.png" alt="文章封面 2"></div>
+            <div class="article-body">
+              <h3 class="article-title">纸驴化生，真性长存：张果老的千年传奇</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/K7FD0loWjpNn35_cKHmWPA" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="ChatGPT Image 2025年5月28日 13_06_31.png" alt="文章封面 3"></div>
+            <div class="article-body">
+              <h3 class="article-title">修道不避世，得道在人间：吕洞宾的千年传奇</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/OmInKW-R5NORaqQ55D7u5g" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="shanshui5644_An_ancient_Taoist_hermit_kneels_before_a_celestial_9fc77539-6c69-44e2-afb4-3e30ac3eb844.png" alt="文章封面 4"></div>
+            <div class="article-body">
+              <h3 class="article-title">一副破身骨，半部成仙经：铁拐李的反向修仙</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/dBhUSXHTqm9h_6T14-DDxQ" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="daniu52011_An_ancient_Chinese_Taoist_sage_standing_calmly_on_a__b4217ab2-e7b9-4c59-b5a2-6cbb17cf002b.png" alt="文章封面 5"></div>
+            <div class="article-body">
+              <h3 class="article-title">钟离权：羽扇拂尘处，自在人间仙</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/3PkaMR0WfiI3cYf6-TwKpg" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="shuaizi268741_63364_ancient_Chinese_painting_style_Song_Dynasty_2c25db94-99c3-4edd-bb8b-e14e0e922a6f.png" alt="文章封面 6"></div>
+            <div class="article-body">
+              <h3 class="article-title">从巫女到仙女：何仙姑的传奇与悲歌</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/Z0OS-ugY45mCdTEyQatF5A" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="jimeng-2025-09-11-1183-古风插画，手绘，神话，意识流，浅色，水墨，国风青年，成年男子，神仙，垂眸，手中拿....png" alt="文章封面 7"></div>
+            <div class="article-body">
+              <h3 class="article-title">韩湘子：花影之间，尘世成仙</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/dR7X13O_5dMPFso9Dk809A" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="jimeng-2025-12-24-3057.png" alt="文章封面 8"></div>
+            <div class="article-body">
+              <h3 class="article-title">蓝采和：破衣跣足似醉似狂，万里人间踏歌高唱</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/dL7WJKGphjduj8t21Rh_7w" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-cover"><img src="640 (3).png" alt="文章封面 9"></div>
+            <div class="article-body">
+              <h3 class="article-title">李冰：疏川定水功，长守天府安</h3>
+              <a class="article-link" href="https://mp.weixin.qq.com/s/SlAI7ExlscW2yb5_mOhWRA" target="_blank">点击跳转原文</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="site-card" id="section-site">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">九尾狐文化网站</h2>
+            <div class="section-note">&nbsp;围绕九尾狐相关神话、历史记载与民俗文化的内容知识库。</div>
+          </div>
+        </div>
+
+        <div class="site-layout">
+          <div class="site-preview">
+            <img src="图片1.png" alt="九尾狐文化网站截图">
+          </div>
+          <div>
+            <div class="site-text">围绕九尾狐相关神话、历史记载与民俗文化的一个内容知识库，侧重传统文化内容的数字化整理与结构化呈现，文化数字化+知识图谱的一次尝试。</div>
+            <div class="site-meta">
+              <div class="meta-box"><b>我的职责</b><span>资料整理 / 内容策划 / 网站搭建</span></div>
+              <div class="meta-box"><b>项目重点</b><span>神话材料梳理、网页信息架构、传统文化内容数字化</span></div>
+            </div>
+            <div style="margin-top:16px;">
+              <a class="site-link" href="https://celestite-yez.github.io/jiuwei/" target="_blank">查看网站</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="media-card" id="section-exhibit">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">中国古代瓷器艺术特展《珍瓷萃美》</h2>
+            <div class="section-note">由中国国家博物馆原创策划的“珍瓷萃美——中国古代瓷器艺术特展。</div>
+          </div>
+        </div>
+
+        <div class="media-grid">
+          <div class="site-text">在瓷器主题数字展项目中，我主要负责展览中的数字媒体内容策划，包括展览动线、多媒体内容规划与沉浸厅叙事设计，并参与沉浸厅 3D 动画制作，探索传统文化如何被转译为更具空间感和沉浸感的数字体验。</div>
+
+          <div class="video-unit">
+            <div class="video-frame">
+              <video controls>
+                <source src="e6805f3f0c4404143fb06e42550d60ac_1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="unit-caption">中国古代瓷器艺术特展沉浸厅——3D 动画部分</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 蓝兰 Narrative Design Portfolio · Research Page
+  </footer>
+  <script>
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.side-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => link.classList.remove('active'));
+          const active = document.querySelector(`.side-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, {
+      rootMargin: '-30% 0px -55% 0px',
+      threshold: 0.1
+    });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

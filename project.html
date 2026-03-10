@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蓝兰 | 游戏项目</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: rgba(255,255,255,0.82);
+      --surface-strong: rgba(255,255,255,0.95);
+      --text: #121826;
+      --muted: #6c7688;
+      --line: rgba(18,24,38,0.08);
+      --accent: #5d7cff;
+      --accent-soft: rgba(93,124,255,0.10);
+      --shadow: 0 18px 48px rgba(37,56,104,0.10);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(93,124,255,0.16), transparent 20%),
+        radial-gradient(circle at 90% 16%, rgba(134,171,255,0.16), transparent 18%),
+        linear-gradient(180deg, #fbfcff 0%, #f3f6fb 100%);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
+
+    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      padding-top: 14px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(93,124,255,0.22);
+      flex: none;
+    }
+
+    .brand-name { font-size: 15px; font-weight: 800; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 50px 0 18px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 38px 34px;
+      border-radius: 42px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.97), rgba(241,246,255,0.90)),
+        linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-orb {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,124,255,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-desc {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+      padding: 10px 0 28px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+    }
+
+    .side-card,
+    .project-card,
+    .note-card,
+    .media-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .side-card {
+      padding: 20px;
+    }
+
+    .side-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .side-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .side-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .side-link:hover,
+    .side-link.active {
+      background: rgba(93,124,255,0.08);
+      color: var(--accent);
+      border-color: rgba(93,124,255,0.12);
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .project-card {
+      padding: 28px;
+      scroll-margin-top: 110px;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .project-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .project-sub {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 760px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .note-card,
+    .media-card {
+      padding: 18px;
+    }
+
+    .block-title {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .block-text {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .high-concept {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(160deg, rgba(93,124,255,0.08), rgba(255,255,255,0.7));
+      border: 1px solid rgba(93,124,255,0.1);
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .bullet-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .bullet-list li + li { margin-top: 8px; }
+
+    .small-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .mini-box {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--line);
+    }
+
+    .mini-box b {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .mini-box span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .media-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .media-unit {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 10px 24px rgba(37,56,104,0.06);
+    }
+
+    .media-unit img,
+    .media-unit video {
+      border-radius: 0;
+    }
+
+    .media-unit img {
+      cursor: zoom-in;
+    }
+
+    .media-caption {
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .file-links {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .file-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(93,124,255,0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .file-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(93,124,255,0.24);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(12, 18, 32, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: min(1280px, 94vw);
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .lightbox-image-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 100%;
+      max-height: 90vh;
+    }
+
+    .lightbox img {
+      display: block;
+      max-width: 100%;
+      max-height: 82vh;
+      width: auto;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+    }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      text-align: center;
+      color: rgba(255,255,255,0.92);
+      font-size: 14px;
+    }
+
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-prev:hover,
+    .lightbox-next:hover {
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 26px;
+      line-height: 1;
+      flex: none;
+    }
+
+    footer {
+      padding: 10px 0 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .nav { flex-direction: column; align-items: start; border-radius: 24px; }
+      .hero-card, .project-card { padding: 22px; border-radius: 28px; }
+      .section-grid, .small-grid, .media-grid, .gallery-grid { grid-template-columns: 1fr; }
+
+      .lightbox {
+        padding: 16px;
+      }
+
+      .lightbox-inner {
+        gap: 8px;
+      }
+
+      .lightbox-prev,
+      .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+      }
+
+      .lightbox-close {
+        top: -8px;
+        right: -8px;
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container nav-wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="brand-mark">蓝</div>
+        <div>
+          <div class="brand-name">蓝兰</div>
+          <div class="brand-sub">Narrative Design Portfolio</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">返回首页</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-orb"></div>
+        <div class="eyebrow">Game Projects</div>
+        <h1>游戏项目</h1>
+        <p class="hero-desc">这一页集中展示参与过的一些游戏项目，按照完成度和完成时间的不同进行的罗列展示。</p>
+        <div class="hero-tags">
+          <span class="hero-tag">叙事设计</span>
+          <span class="hero-tag">玩法概念</span>
+          <span class="hero-tag">Game Jam</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-title">项目目录</div>
+        <div class="side-nav" id="sideNav">
+          <a class="side-link active" href="#p1">《Everything is Fine》</a>
+          <a class="side-link" href="#p2">《Dots on Trips》</a>
+          <a class="side-link" href="#p3">《风筝凌云志》</a>
+          <a class="side-link" href="#p4">《故里》</a>
+          <a class="side-link" href="#p5">四月四日殷家宅</a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <section class="project-card" id="p1">
+        <div class="project-meta">
+          <span class="pill">制作中</span>
+          <span class="pill">都市怪谈</span>
+          <span class="pill">叙事设计</span>
+        </div>
+        <h2 class="project-title">《Everything is Fine》</h2>
+        <p class="project-sub">以伪人、异常与认知错位为核心的都市怪谈叙事游戏。</p>
+        <div class="high-concept">一个看似正常的世界正在持续产生“异常”。白天，你身处其中却对错误视而不见；夜晚，你成为检查这个世界的人，并在修补漏洞的过程中找到自己的求生之道。</div>
+
+        <div class="small-grid">
+          <div class="mini-box"><b>项目类型</b><span>剧情类微恐 RPG</span></div>
+          <div class="mini-box"><b>我的职责</b><span>世界观设定 / 剧情结构 / 角色设定</span></div>
+          <div class="mini-box"><b>展示形式</b><span>文本设定 / 流程图 / 概念设计</span></div>
+        </div>
+
+        <div class="section-grid">
+          <article class="note-card">
+            <h3 class="block-title">核心概念</h3>
+            <div class="block-text">项目以“双视角叙事”为核心，玩家将扮演深陷伪人伪造世界的普通人体验日常生活，随后切换为观察员，排查并修复世界中的怪异漏洞，在两个不同视角间切换，逐步发现世界真相。</div>
+			<div class="file-links">
+              <a class="file-link" href="游戏设计概念初稿.pdf" target="_blank">查看初步剧本</a>
+            </div>
+          </article>
+          <article class="note-card">
+            <h3 class="block-title">世界观机制</h3>
+            <ul class="bullet-list">
+              <li>实验体均被植入“认知滤网”系统，使其自动忽略异常，新实验体的滤网需经过 3 天适应期才会固化。</li>
+              <li>每个观测室都有自毁协议，观察员擅自离岗会被格式化或投入模拟舱成为新实验体。</li>
+              <li>模拟舱在“实验体出现不可逆变化”时，会启动紧急重置协议，监察室短暂开启封锁。</li>
+            </ul>
+          </article>
+          <article class="note-card">
+            <h3 class="block-title">剧情流程</h3>
+            <div class="block-text">整体分为 A / B 两个视角世界，进程相互推进。</div>
+            <ul class="bullet-list">
+              <li>Day 1：实验体 A 启用，正常生活开始；观察员 B 抓住机会解除其认知滤网。</li>
+              <li>Day 2：A 察觉异常并崩溃，B 因看见出逃可能而更加积极介入。</li>
+              <li>Day 3：A 在世界崩塌中逃跑，B 趁机脱逃，伪人展开追逐。</li>
+            </ul>
+          </article>
+          <article class="note-card">
+            <h3 class="block-title">玩法设计</h3>
+            <ul class="bullet-list">
+              <li>普通人阶段为点击交互，以剧情体验、环境观察和日记记录为主。</li>
+              <li>观察员阶段根据清单与日记寻找异常点，并选择上报修复。</li>
+              <li>异常处理以“判断真假异常”为核心，强调信息辨别。</li>
+            </ul>
+          </article>
+          <article class="note-card">
+            <h3 class="block-title">角色设计 · A</h3>
+            <ul class="bullet-list">
+              <li>身份：被观察实验体 / 学生</li>
+              <li>背景：新实验体，认知滤网尚未稳定，逐渐在怪异中察觉问题。</li>
+              <li>习惯：喜欢聊天，记忆力优异，睡前写日记记录见闻。</li>
+              <li>性格：本性乐观，思维活跃，具备好奇心和质疑勇气。</li>
+            </ul>
+          </article>
+          <article class="note-card">
+            <h3 class="block-title">角色设计 · B</h3>
+            <ul class="bullet-list">
+              <li>身份：观察员</li>
+              <li>背景：早年被伪人抓捕，负责检测模拟环境是否符合人类世界。</li>
+              <li>习惯：长期高压下常自言自语，以此对抗孤独。</li>
+              <li>性格：深恨伪人，疲惫但坚韧，始终在寻找逃离机会。</li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="note-card" style="margin-top:14px;">
+          <h3 class="block-title">设计思考</h3>
+          <div class="block-text">这个项目的核心不是单纯做“找不同式恐怖”，而是把恐怖感建立在认知系统的崩坏上，并通过 2D / 3D 风格切换突出世界维度不同带来的怪异感。玩法本身因此成为叙事的一部分，而不是独立于剧情之外的小游戏。</div>
+        </article>
+
+        <article class="media-card" style="margin-top:14px;">
+          <h3 class="block-title">美术参考</h3>
+          <div class="media-grid">
+            <div class="media-unit">
+              <img src="6df6a954-c8e2-4bb8-8d63-9436129fed0f.png" alt="Everything is Fine 美术参考 1">
+            </div>
+            <div class="media-unit">
+              <img src="b1b5d9a0-a81e-4daf-b4df-4ea1d4a9d842.png" alt="Everything is Fine 美术参考 2">
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="project-card" id="p2">
+        <div class="project-meta">
+          <span class="pill">Game Jam</span>
+          <span class="pill">内容策划</span>
+        </div>
+        <h2 class="project-title">《Dots on Trips》</h2>
+        <p class="project-sub">限时命题创作，围绕“点”这一主题完成的游戏项目。从摩斯电码与盲文中获取灵感，设计了节奏判定与探索推进结合的结构。</p>
+
+        <div class="small-grid">
+          <div class="mini-box"><b>项目类型</b><span>Game Jam</span></div>
+          <div class="mini-box"><b>我的职责</b><span>内容策划 / 文案策划</span></div>
+          <div class="mini-box"><b>展示形式</b><span>试玩视频</span></div>
+        </div>
+
+        <div class="section-grid">
+          <article class="note-card">
+            <h3 class="block-title">设计亮点</h3>
+            <ul class="bullet-list">
+              <li>从抽象命题完成概念转译。</li>
+              <li>把“盲文”转换为节奏与探索的玩法基础。</li>
+              <li>用日记书写框架承接叙事内容。</li>
+            </ul>
+          </article>
+          <article class="media-card">
+            <h3 class="block-title">试玩视频</h3>
+            <div class="media-unit">
+              <video controls>
+                <source src="演示视频.mp4" type="video/mp4">
+              </video>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="project-card" id="p3">
+        <div class="project-meta">
+          <span class="pill">Game Jam</span>
+          <span class="pill">内容策划</span>
+        </div>
+        <h2 class="project-title">《风筝凌云志》</h2>
+        <p class="project-sub">限时 48h 命题创作，围绕中国传统风筝元素进行延伸，尝试把收集、成长与图鉴展示组合为完整循环，并加入基础科普信息。</p>
+
+        <div class="small-grid">
+          <div class="mini-box"><b>项目类型</b><span>Game Jam</span></div>
+          <div class="mini-box"><b>我的职责</b><span>内容策划 / 美术资产制作</span></div>
+          <div class="mini-box"><b>展示形式</b><span>试玩视频</span></div>
+        </div>
+
+        <div class="section-grid">
+          <article class="note-card">
+            <h3 class="block-title">设计亮点</h3>
+            <ul class="bullet-list">
+              <li>通过“成长 / 融合 / 解锁图鉴”的方式，让玩家在轻玩法中逐步接触不同风筝类型与对应文化内容。</li>
+              <li>将“放风筝”这一动作完成概念转译，并作为玩法基础。</li>
+            </ul>
+          </article>
+          <article class="media-card">
+            <h3 class="block-title">试玩视频</h3>
+            <div class="media-unit">
+              <video controls>
+                <source src="3d5236b1e26fcac8bf6d84c581d6ee6b.mp4" type="video/mp4">
+              </video>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="project-card" id="p4">
+        <div class="project-meta">
+          <span class="pill">个人项目</span>
+          <span class="pill">像素经营</span>
+        </div>
+        <h2 class="project-title">《故里》</h2>
+        <p class="project-sub">一款偏轻量体验的像素种植小游戏，具有昼夜切换和基础经营系统。</p>
+
+        <div class="small-grid">
+          <div class="mini-box"><b>项目类型</b><span>种植经营</span></div>
+          <div class="mini-box"><b>我的职责</b><span>人物绘制 / 系统搭建 / 场景搭建</span></div>
+          <div class="mini-box"><b>展示形式</b><span>试玩视频 / 人物精灵图</span></div>
+        </div>
+
+        <div class="section-grid">
+          <article class="note-card">
+            <h3 class="block-title">美术展示</h3>
+            <div class="gallery-grid">
+              <div class="media-unit"><img src="图片13.png" alt="故里 美术图 1"></div>
+              <div class="media-unit"><img src="图片14.png" alt="故里 美术图 2"></div>
+              <div class="media-unit"><img src="图片15.png" alt="故里 美术图 3"></div>
+              <div class="media-unit"><img src="图片16.png" alt="故里 美术图 4"></div>
+              <div class="media-unit"><img src="图片17.png" alt="故里 美术图 5"></div>
+              <div class="media-unit"><img src="图片18.png" alt="故里 美术图 6"></div>
+              <div class="media-unit"><img src="图片19.png" alt="故里 美术图 7"></div>
+              <div class="media-unit"><img src="图片20.png" alt="故里 美术图 8"></div>
+              <div class="media-unit"><img src="图片21.png" alt="故里 美术图 9"></div>
+            </div>
+          </article>
+
+          <article class="media-card">
+            <h3 class="block-title">试玩视频</h3>
+            <div class="media-unit">
+              <video controls>
+                <source src="e6805f3f0c4404143fb06e42550d60ac.mp4" type="video/mp4">
+              </video>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="project-card" id="p5">
+        <div class="project-meta">
+          <span class="pill">剧情设计</span>
+          <span class="pill">个人项目</span>
+          <span class="pill">开发中</span>
+        </div>
+        <h2 class="project-title">四月四日殷家宅</h2>
+        <p class="project-sub">一款民俗悬疑推理向恐怖游戏剧本创作，以宅邸调查为线索，通过香料、铜镜、致幻与家族秘密构建层层误导。</p>
+
+        <div class="small-grid">
+          <div class="mini-box"><b>项目类型</b><span>民俗推理 / 剧本创作</span></div>
+          <div class="mini-box"><b>我的职责</b><span>剧情设计 / 人物设定 / 玩法设计</span></div>
+          <div class="mini-box"><b>展示形式</b><span>文字剧本 / 证据链</span></div>
+        </div>
+
+        <div class="section-grid">
+          <article class="note-card">
+            <h3 class="block-title">故事概念</h3>
+            <div class="block-text">前期以灵异恐怖氛围营造压迫感，后期逐步揭露鬼影、铜镜与致幻的背后都是人为操纵，主题落点在“比鬼神更可怕的是人心”。</div>
+          </article>
+
+          <article class="note-card">
+            <h3 class="block-title">初步剧本</h3>
+            <div class="block-text">该项目的初步剧情与调查流程已整理为文档，可点击查看：</div>
+            <div class="file-links">
+              <a class="file-link" href="稿3.0.pdf" target="_blank">查看初步剧本</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 蓝兰 Narrative Design Portfolio · Projects Page
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-prev" id="lightboxPrev" aria-label="上一张">‹</button>
+      <div class="lightbox-image-wrap">
+        <img id="lightboxImage" src="" alt="放大预览">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
+      <button class="lightbox-next" id="lightboxNext" aria-label="下一张">›</button>
+      <button class="lightbox-close" id="lightboxClose" aria-label="关闭图片预览">×</button>
+    </div>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll('.project-card[id]');
+    const links = document.querySelectorAll('.side-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => link.classList.remove('active'));
+          const active = document.querySelector(`.side-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, {
+      rootMargin: '-30% 0px -55% 0px',
+      threshold: 0.1
+    });
+
+    sections.forEach(section => observer.observe(section));
+
+    const galleryImages = Array.from(document.querySelectorAll('.media-unit img'));
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentImageIndex = 0;
+
+    function updateLightboxImage() {
+      const img = galleryImages[currentImageIndex];
+      if (!img) return;
+      lightboxImage.src = img.src;
+      lightboxImage.alt = img.alt || '放大预览';
+      lightboxCaption.textContent = img.alt || '';
+    }
+
+    function openLightbox(index) {
+      currentImageIndex = index;
+      updateLightboxImage();
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      lightboxCaption.textContent = '';
+    }
+
+    function showPrevImage() {
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      updateLightboxImage();
+    }
+
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      updateLightboxImage();
+    }
+
+    galleryImages.forEach((img, index) => {
+      img.addEventListener('click', () => openLightbox(index));
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrevImage);
+    lightboxNext.addEventListener('click', showNextImage);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrevImage();
+      if (e.key === 'ArrowRight') showNextImage();
+    });
+  </script>
+</body>
+</html>

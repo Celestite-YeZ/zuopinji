@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蓝兰 | 原创世界观</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: rgba(255,255,255,0.82);
+      --text: #121826;
+      --muted: #6c7688;
+      --line: rgba(18,24,38,0.08);
+      --accent: #5d7cff;
+      --accent-soft: rgba(93,124,255,0.10);
+      --shadow: 0 18px 48px rgba(37,56,104,0.10);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(93,124,255,0.16), transparent 20%),
+        radial-gradient(circle at 90% 16%, rgba(134,171,255,0.16), transparent 18%),
+        linear-gradient(180deg, #fbfcff 0%, #f3f6fb 100%);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
+
+    .container { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      padding-top: 14px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #8bb0ff);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(93,124,255,0.22);
+      flex: none;
+    }
+
+    .brand-name { font-size: 15px; font-weight: 800; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 50px 0 20px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 38px 34px;
+      border-radius: 42px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.97), rgba(241,246,255,0.90)),
+        linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-orb {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,124,255,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-desc {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+      padding: 10px 0 38px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+    }
+
+    .side-card,
+    .main-card,
+    .video-card,
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .side-card {
+      padding: 20px;
+    }
+
+    .main-card,
+    .video-card,
+    .summary-card {
+      padding: 28px;
+    }
+
+    .side-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .side-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .side-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .side-link:hover,
+    .side-link.active {
+      background: rgba(93,124,255,0.08);
+      color: var(--accent);
+      border-color: rgba(93,124,255,0.12);
+    }
+
+    .content {
+      display: grid;
+      gap: 28px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 760px;
+    }
+
+    .intro-text {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 820px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .meta-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .video-frame {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(37,56,104,0.06);
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+    }
+
+    .video-caption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .summary-box {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(37,56,104,0.06);
+    }
+
+    .summary-box b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .summary-box span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    footer {
+      padding: 10px 0 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .nav { flex-direction: column; align-items: start; border-radius: 24px; }
+      .hero-card, .main-card, .video-card, .summary-card { padding: 22px; border-radius: 28px; }
+      .content { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container nav-wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="brand-mark">蓝</div>
+        <div>
+          <div class="brand-name">蓝兰</div>
+          <div class="brand-sub">Narrative Design Portfolio</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">返回首页</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-orb"></div>
+        <div class="eyebrow">Original Worldbuilding</div>
+        <h1>原创世界观</h1>
+        <p class="hero-desc">这一页展示的是我的个人原创世界观开发项目。当前阶段主要完成了世界基底、核心角色雏形、势力框架与部分时间线设计，并以本地站点的形式持续整理内容。</p>
+        <div class="hero-tags">
+          <span class="hero-tag">原创世界观</span>
+          <span class="hero-tag">武侠架空</span>
+          <span class="hero-tag">角色设计</span>
+          <span class="hero-tag">长期开发中</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-title">页面目录</div>
+        <div class="side-nav" id="sideNav">
+          <a class="side-link active" href="#section-intro">项目简介</a>
+          <a class="side-link" href="#section-video">阶段展示视频</a>
+          <a class="side-link" href="#section-summary">设定摘要</a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <section class="main-card" id="section-intro">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">项目简介</h2>
+            <div class="section-note">一个持续生长中的原创世界，是他们和他们自己的故事。</div>
+          </div>
+        </div>
+        <div class="intro-text">这是一个以架空古代武侠世界，现阶段的重点仍放在世界观框架、角色方向、势力关系与故事潜力的梳理上，更多是为后续叙事设计、角色发展与长期内容扩写打基础。</div>
+        <div class="meta-row">
+          <span class="meta-pill">长期个人项目</span>
+          <span class="meta-pill">世界观开发</span>
+          <span class="meta-pill">角色雏形</span>
+          <span class="meta-pill">本地站点整理</span>
+        </div>
+      </section>
+
+      <section class="video-card" id="section-video">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">阶段展示视频</h2>
+            <div class="section-note">以当前站点整理成果为基础，对世界观框架与已有内容做一轮阶段性展示。</div>
+          </div>
+        </div>
+        <div class="video-frame">
+          <video controls>
+            <source src="媒体1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-caption">视频主要展示当前阶段的站点整理、角色方向与世界框架，不是最终完成形态的设定展示页。</div>
+      </section>
+
+      <section class="summary-card" id="section-summary">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">当前进度</h2>
+            <div class="section-note">目前已完成的内容和后续计划。</div>
+          </div>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-box">
+            <b>世界基调</b>
+            <span>架空古代武侠世界，整体参考宋朝，并融入少量唐朝意象，在王朝残灯将熄的岁月里，人情债、旧因果、未了的誓言都在这片夜色里翻涌。</span>
+          </div>
+          <div class="summary-box">
+            <b>八大主要势力</b>
+            <span>弈剑阁、真武殿、衔月阁、龙韬卫、光明顶、听雨楼、寂灭堂、星罗天</span>
+          </div>
+          <div class="summary-box">
+            <b>当前完成内容</b>
+            <span>已完成主角与部分配角的人设雏形、世界势力的初步划分、部分时间轴规划，以及少量人物故事文本。</span>
+          </div>
+          <div class="summary-box">
+            <b>后续计划</b>
+            <span>继续补充角色关系、阵营结构与关键事件，并逐步形成人物小传、主线故事以及一些支线或IF线的故事。</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 蓝兰 Narrative Design Portfolio · Original Worldbuilding Page
+  </footer>
+
+  <script>
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.side-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => link.classList.remove('active'));
+          const active = document.querySelector(`.side-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, {
+      rootMargin: '-30% 0px -55% 0px',
+      threshold: 0.1
+    });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
